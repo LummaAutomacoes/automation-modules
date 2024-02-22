@@ -1,5 +1,6 @@
 import fs from 'fs'
 import fs2 from 'fs/promises'
+import path from 'path'
 
 export async function createFolder(folderPathName) {
     try {
@@ -66,6 +67,26 @@ export async function findFolder(folderPath, nameFolder) {
         // Assuming fs2 is a typo or a custom implementation. Use fs.promises for standard Node.js
         const folder = listAll.find(file => file.isDirectory() && file.name.includes(nameFolder));
         return folder; // This will return the Dirent object if found, undefined otherwise
+    } catch (error) {
+        console.error(error.stack);
+    }
+}
+
+export async function moveFiles(sourceDir, targetDir) {
+    try {
+
+        await fs2.mkdir(targetDir, { recursive: true });
+
+        const files = await fs2.readdir(sourceDir, { withFileTypes: true });
+
+        for (let file of files) {
+            if (file.isFile()) {
+                const sourceFilePath = path.join(sourceDir, file.name);
+                const targetFilePath = path.join(targetDir, file.name);
+
+                await fs2.rename(sourceFilePath, targetFilePath);
+            }
+        }
     } catch (error) {
         console.error(error.stack);
     }

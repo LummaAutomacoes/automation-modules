@@ -1,6 +1,26 @@
 import fs from 'fs'
 import fs2 from 'fs/promises'
 
+async function createFolder(folderPathName) {
+    try {
+        if (!fs.existsSync(folderPathName)) {
+            fs.mkdirSync(folderPathName)
+        }
+    } catch (error) {
+        console.log("Ocorreu um erro, contate os Administradores.")
+        console.error(error.stack)
+    }
+}
+
+async function createFile(filePath, contentFile) {
+    try {
+        await fs2.writeFile(filePath, contentFile);
+    } catch (error) {
+        console.log("Ocorreu um erro, contate os Administradores.");
+        console.error(error.stack);
+    }
+}
+
 export async function deleteAllFilesInDirectory(directoryPath) {
     try {
         const files = await fs2.readdir(directoryPath);

@@ -1,7 +1,7 @@
 import fs from 'fs'
 import fs2 from 'fs/promises'
 
-async function createFolder(folderPathName) {
+export async function createFolder(folderPathName) {
     try {
         if (!fs.existsSync(folderPathName)) {
             fs.mkdirSync(folderPathName)
@@ -12,7 +12,7 @@ async function createFolder(folderPathName) {
     }
 }
 
-async function createFile(filePath, contentFile) {
+export async function createFile(filePath, contentFile) {
     try {
         await fs2.writeFile(filePath, contentFile);
     } catch (error) {
